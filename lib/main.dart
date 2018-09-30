@@ -8,9 +8,11 @@ void main() => runApp(new MyApp());
 
 Future<Post> fetchPost() async {
   final response =
-        await http.get('https://jsonplaceholder.typicode.com/posts/1');
+        //await http.get('https://jsonplaceholder.typicode.com/posts/1');
+    await http.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=TSLA&interval=60min&apikey=KWI8RXBVV2ARLN5S');
 
   if (response.statusCode == 200) {
+
     return Post.fromJson(json.decode(response.body));
   } else {
     throw Exception('Failed to load post');
@@ -41,7 +43,12 @@ class MyApp extends StatelessWidget{
             builder: (context, snapshot) {
 
               if (snapshot.hasData) {
-                return Text(snapshot.data.title);
+
+                Map metaData = snapshot.data.title;
+                Map quotes = snapshot.data.body;
+                List quoteList = quotes.values.toList();
+
+                return Text(metaData["2. Symbol"] + " on " + metaData["3. Last Refreshed"] + " " + quoteList[0].toString());
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
