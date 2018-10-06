@@ -44,11 +44,21 @@ class MyApp extends StatelessWidget{
 
               if (snapshot.hasData) {
 
-                Map metaData = snapshot.data.title;
-                Map quotes = snapshot.data.body;
-                List quoteList = quotes.values.toList();
+                Map metaData = snapshot.data.metaData;
+                Map quotes = snapshot.data.quotes;
 
-                return Text(metaData["2. Symbol"] + " on " + metaData["3. Last Refreshed"] + " " + quoteList[0].toString());
+                StockQuote recentQuote = snapshot.data.getQuote();
+
+                return Text("""${metaData["2. Symbol"]} on ${metaData["3. Last Refreshed"]} \nOpen: ${recentQuote.open}\nHigh: ${recentQuote.high}\nLow: ${recentQuote.low}\nClose: ${recentQuote.close}\nVolume: ${recentQuote.volume}""");
+
+//
+//                return Text(metaData["2. Symbol"] + " on " + metaData["3. Last Refreshed"] + " " + quoteList[0].toString());
+//                StockQuote recentQuote = snapshot.data.getQuote();
+
+
+
+                return (Text("Blah"));
+
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
